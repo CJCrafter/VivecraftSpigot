@@ -1,5 +1,6 @@
 package com.cjcrafter.vivecraft.listeners;
 
+import com.cryptomorin.xseries.XEntityType;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,6 +12,8 @@ import com.cjcrafter.vivecraft.VSE;
 import com.cjcrafter.vivecraft.VivePlayer;
 
 public class VivecraftItemListener implements Listener {
+
+    public static final EntityType DROPPED_ITEM = XEntityType.ITEM.get();
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
     public void onPlayerDropItem(PlayerDropItemEvent event) {
@@ -24,7 +27,7 @@ public class VivecraftItemListener implements Listener {
 
         float f2 = 0.3F;
 
-        if (event.getItemDrop().getType() == EntityType.DROPPED_ITEM) {
+        if (event.getItemDrop().getType() == DROPPED_ITEM) {
             Vector v = new Vector();
             float yaw = player.getLocation().getYaw();
             float pitch = -player.getLocation().getPitch();

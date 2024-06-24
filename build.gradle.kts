@@ -15,7 +15,8 @@ repositories {
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.20.6-R0.1-SNAPSHOT")
-    compileOnly("com.github.MilkBowl:VaultAPI:1.7")
+    compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
+    implementation("com.github.cryptomorin:XSeries:11.1.0")
     implementation("org.bstats:bstats-bukkit:3.0.1")
 }
 

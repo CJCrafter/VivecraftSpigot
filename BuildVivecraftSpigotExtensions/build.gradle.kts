@@ -7,7 +7,7 @@ plugins {
     `java-library`
     id("com.github.breadmoirai.github-release") version "2.4.1"
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("net.minecrell.plugin-yml.bukkit") version "0.5.2"
+    id("net.minecrell.plugin-yml.bukkit") version "0.6.0"
 }
 
 // See https://github.com/Minecrell/plugin-yml
@@ -80,8 +80,12 @@ tasks.shadowJar {
             include(dependency(":Vivecraft_1_$it"))
         }
 
-        relocate("org.bstats", "org.vivecraft.bstats") {
+        relocate("org.bstats", "com.cjcrafter.vivecraft.bstats") {
             include(dependency("org.bstats:"))
+        }
+
+        relocate("com.cryptomorin.xseries", "com.cjcrafter.vivecraft.xseries") {
+            include(dependency("com.github.cryptomorin:XSeries:"))
         }
     }
 }
