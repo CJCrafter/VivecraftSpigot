@@ -4,6 +4,7 @@ import net.milkbowl.vault.permission.Permission;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.AdvancedPie;
 import org.bukkit.Bukkit;
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
@@ -15,6 +16,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.cjcrafter.vivecraft.command.ConstructTabCompleter;
@@ -82,6 +84,7 @@ public class VSE extends JavaPlugin implements Listener {
                 ItemMeta meta = is.getItemMeta();
                 meta.setUnbreakable(true);
                 meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+                ((LeatherArmorMeta) meta).setColor(Color.fromRGB(9233775));
                 is.setItemMeta(meta);
                 is = CompatibilityAPI.getCompatibility().setLocalizedName(is, "vivecraft.item.jumpboots");
                 ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(this, "jump_boots"), is);
@@ -258,10 +261,13 @@ public class VSE extends JavaPlugin implements Listener {
         if (g_classic != null && !g_classic.trim().isEmpty())
             groups.put(g_classic, iscompanion);
 
-        if (isvive) {
-            String g_freemove = getConfig().getString("permissions.freemovegroup");
-            if (g_freemove != null && !g_freemove.trim().isEmpty())
+        String g_freemove = getConfig().getString("permissions.freemovegroup");
+        if (g_freemove != null && !g_freemove.trim().isEmpty()) {
+            if (isvive) {
                 groups.put(g_freemove, !vivePlayers.get(p.getUniqueId()).isTeleportMode);
+            } else {
+                groups.put(g_freemove, false);
+            }
         }
 
         updatePlayerPermissionGroup(p, groups);

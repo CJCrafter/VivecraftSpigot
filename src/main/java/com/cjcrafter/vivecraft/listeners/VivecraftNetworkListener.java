@@ -182,6 +182,17 @@ public class VivecraftNetworkListener implements PluginMessageListener {
                         sender.sendPluginMessage(vse, VSE.CHANNEL, p);
                     }
 
+                    if (vse.getConfig().getBoolean("settingOverrides.thirdPersonItems")) {
+                        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+                        baos.write(PacketDiscriminators.SETTING_OVERRIDE.ordinal());
+
+                        writeSetting(baos, "thirdPersonItems", true);
+
+                        final byte[] p = baos.toByteArray();
+                        sender.sendPluginMessage(vse, VSE.CHANNEL, p);
+                    }
+
                     if (vse.getConfig().getBoolean("teleport.enabled"))
                         sender.sendPluginMessage(vse, VSE.CHANNEL, new byte[]{(byte) PacketDiscriminators.TELEPORT.ordinal()});
 
@@ -256,10 +267,14 @@ public class VivecraftNetworkListener implements PluginMessageListener {
                 try {
                     vr = vrd.readBoolean();
                     if(vp.isVR()==vr) break;
-                    vp.setVR(vr);
                     if (!vr) {
-                        vse.sendVRActiveUpdate(vp);
+                        vp.setVR(false);
+                    } else {
+                        vp.setVR(true);
+                        CompatibilityAPI.getCompatibility().injectPoseOverrider(sender);
                     }
+                    vse.sendVRActiveUpdate(vp);
+                    vse.setPermissionsGroup(sender);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
