@@ -113,9 +113,9 @@ public class Vivecraft_v1_19_R3 implements VivecraftCompatibility {
     }
 
     @Override
-    public org.bukkit.inventory.ItemStack setLocalizedName(org.bukkit.inventory.ItemStack item, String key) {
+    public org.bukkit.inventory.ItemStack setLocalizedName(org.bukkit.inventory.ItemStack item, String key, String fallback) {
         var nmsStack = CraftItemStack.asNMSCopy(item);
-        nmsStack.setHoverName(Component.translatable(key));
+        nmsStack.setHoverName(Component.translatableWithFallback(key, fallback));
         return CraftItemStack.asBukkitCopy(nmsStack);
     }
 

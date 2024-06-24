@@ -17,7 +17,7 @@ public interface VivecraftCompatibility {
 
     void resetFall(Player player);
 
-    ItemStack setLocalizedName(ItemStack item, String key);
+    ItemStack setLocalizedName(ItemStack item, String key, String fallback);
 
     void setSwimming(Player player);
 

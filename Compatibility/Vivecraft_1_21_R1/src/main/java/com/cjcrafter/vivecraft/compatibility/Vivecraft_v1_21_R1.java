@@ -5,6 +5,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.ReferenceCountUtil;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
@@ -32,10 +33,10 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_20_R3.entity.CraftCreeper;
-import org.bukkit.craftbukkit.v1_20_R3.entity.CraftEnderman;
-import org.bukkit.craftbukkit.v1_20_R3.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_20_R3.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.entity.CraftCreeper;
+import org.bukkit.craftbukkit.entity.CraftEnderman;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
+import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Enderman;
 import org.bukkit.entity.Player;
@@ -47,7 +48,7 @@ import com.cjcrafter.vivecraft.VivePlayer;
 import java.util.*;
 import java.util.function.Predicate;
 
-public class Vivecraft_v1_20_R3 implements VivecraftCompatibility {
+public class Vivecraft_v1_21_R1 implements VivecraftCompatibility {
 
     private static Class<?> classEndermanFreezeWhenLookedAt;
     private static Class<?> classEndermanLookForPlayerGoal;
@@ -57,7 +58,7 @@ public class Vivecraft_v1_20_R3 implements VivecraftCompatibility {
     private static Reflector.FieldAccessor fallFlyTicksAccessor;
 
 
-    public Vivecraft_v1_20_R3() {
+    public Vivecraft_v1_21_R1() {
         classEndermanFreezeWhenLookedAt = Reflector.getNMSClass("world.entity.monster", "EntityEnderman$a"); // https://nms.screamingsandals.org/1.20.2/net/minecraft/world/entity/monster/EnderMan.html
         classEndermanLookForPlayerGoal = Reflector.getNMSClass("world.entity.monster", "EntityEnderman$PathfinderGoalPlayerWhoLookedAtTarget");
         poseAccessor = Reflector.getField(Entity.class, EntityDataAccessor.class, 6, false);
@@ -98,7 +99,7 @@ public class Vivecraft_v1_20_R3 implements VivecraftCompatibility {
         EntityDataAccessor<Pose> poseObj = (EntityDataAccessor<Pose>) poseAccessor.get(player);
         Int2ObjectOpenHashMap<SynchedEntityData.DataItem<?>> entries = (Int2ObjectOpenHashMap<SynchedEntityData.DataItem<?>>) itemsByIdAccessor.get(player.getEntityData());
         InjectedDataWatcherItem item = new InjectedDataWatcherItem(poseObj, Pose.STANDING, bukkit);
-        entries.put(poseObj.getId(), item);
+        entries.put(poseObj.id(), item);
     }
 
     @Override
@@ -109,9 +110,9 @@ public class Vivecraft_v1_20_R3 implements VivecraftCompatibility {
     }
 
     @Override
-    public org.bukkit.inventory.ItemStack setLocalizedName(org.bukkit.inventory.ItemStack item, String key) {
+    public org.bukkit.inventory.ItemStack setLocalizedName(org.bukkit.inventory.ItemStack item, String key, String fallback) {
         var nmsStack = CraftItemStack.asNMSCopy(item);
-        nmsStack.setHoverName(Component.translatable(key));
+        nmsStack.set(DataComponents.CUSTOM_NAME, Component.translatableWithFallback(key, fallback));
         return CraftItemStack.asBukkitCopy(nmsStack);
     }
 

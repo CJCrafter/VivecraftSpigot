@@ -5,6 +5,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.ReferenceCountUtil;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
@@ -109,10 +110,9 @@ public class Vivecraft_v1_20_R4 implements VivecraftCompatibility {
     }
 
     @Override
-    public org.bukkit.inventory.ItemStack setLocalizedName(org.bukkit.inventory.ItemStack item, String key) {
+    public org.bukkit.inventory.ItemStack setLocalizedName(org.bukkit.inventory.ItemStack item, String key, String fallback) {
         var nmsStack = CraftItemStack.asNMSCopy(item);
-        nmsStack.
-        nmsStack.setHoverName(Component.translatable(key));
+        nmsStack.set(DataComponents.CUSTOM_NAME, Component.translatableWithFallback(key, fallback));
         return CraftItemStack.asBukkitCopy(nmsStack);
     }
 

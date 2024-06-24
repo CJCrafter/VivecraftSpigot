@@ -86,7 +86,7 @@ public class VSE extends JavaPlugin implements Listener {
                 meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
                 ((LeatherArmorMeta) meta).setColor(Color.fromRGB(9233775));
                 is.setItemMeta(meta);
-                is = CompatibilityAPI.getCompatibility().setLocalizedName(is, "vivecraft.item.jumpboots");
+                is = CompatibilityAPI.getCompatibility().setLocalizedName(is, "vivecraft.item.jumpboots", "Jump Boots");
                 ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(this, "jump_boots"), is);
                 recipe.shape("B", "S");
                 recipe.setIngredient('B', Material.LEATHER_BOOTS);
@@ -99,7 +99,7 @@ public class VSE extends JavaPlugin implements Listener {
                 meta.setUnbreakable(true);
                 meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
                 is.setItemMeta(meta);
-                is = CompatibilityAPI.getCompatibility().setLocalizedName(is, "vivecraft.item.climbclaws");
+                is = CompatibilityAPI.getCompatibility().setLocalizedName(is, "vivecraft.item.climbclaws", "Climb Claws");
                 ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(this, "climb_claws"), is);
                 recipe.shape("E E", "S S");
                 recipe.setIngredient('E', Material.SPIDER_EYE);
