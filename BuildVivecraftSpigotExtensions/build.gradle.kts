@@ -1,19 +1,13 @@
 import com.github.breadmoirai.githubreleaseplugin.GithubReleaseTask
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-
 
 group = "com.cjcrafter"
-version = "3.0.0"
+version = "3.0.1"
 
 plugins {
     `java-library`
     id("com.github.breadmoirai.github-release") version "2.4.1"
-    id("com.github.johnrengelman.shadow") version "7.1.0"
+    id("com.github.johnrengelman.shadow") version "8.1.1"
     id("net.minecrell.plugin-yml.bukkit") version "0.5.2"
-}
-
-configurations {
-    compileClasspath.get().extendsFrom(create("shadeOnly"))
 }
 
 // See https://github.com/Minecrell/plugin-yml
@@ -73,25 +67,16 @@ dependencies {
     }
 }
 
-tasks {
-    compileJava {
-        options.encoding = Charsets.UTF_8.name() // We want UTF-8 for everything
-        options.release.set(16)
-    }
-}
-
 // The shadowJar task builds a "fat jar" (a jar with all dependencies built in).
-tasks.named<ShadowJar>("shadowJar") {
-
-    archiveFileName.set("Vivecraft_Spigot_Extensions-${project.version}.jar")
-    configurations = listOf(project.configurations["shadeOnly"], project.configurations["runtimeClasspath"])
+tasks.shadowJar {
+    archiveFileName.set("VivecraftSpigot-${project.version}.jar")
 
     // This automatically "shades" (adds to jar) the bstats libs into the
     // org.vivecraft.bstats package.
     dependencies {
         include(project(":")) // base project
 
-        listOf("19_R3", "20_R1", "20_R2", "20_R3").forEach {
+        listOf("19_R3", "20_R1", "20_R2", "20_R3", "20_R4", "21_R1").forEach {
             include(dependency(":Vivecraft_1_$it"))
         }
 
@@ -99,8 +84,4 @@ tasks.named<ShadowJar>("shadowJar") {
             include(dependency("org.bstats:"))
         }
     }
-}
-
-tasks.named("assemble").configure {
-    dependsOn("shadowJar")
 }

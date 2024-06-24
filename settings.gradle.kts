@@ -15,7 +15,7 @@ rootProject.name = "Vivecraft_Spigot_Extensions"
 include(":BuildVivecraftSpigotExtensions")
 
 // Include compatibility issues
-listOf("19_R3", "20_R1", "20_R2", "20_R3").forEach {
+listOf("19_R3", "20_R1", "20_R2", "20_R3", "20_R4", "21_R1").forEach {
     println("Including Vivecraft module 1_$it")
     include(":Vivecraft_1_$it")
     project(":Vivecraft_1_$it").projectDir = file("Compatibility/Vivecraft_1_$it")
