@@ -35,7 +35,7 @@ public class UnknownVivecraftCompatibility implements VivecraftCompatibility {
     }
 
     @Override
-    public ItemStack setLocalizedName(ItemStack item, String key) {
+    public ItemStack setLocalizedName(ItemStack item, String key, String fallback) {
         return item;
     }
 
