@@ -267,11 +267,14 @@ public class VivecraftNetworkListener implements PluginMessageListener {
                 try {
                     vr = vrd.readBoolean();
                     if(vp.isVR()==vr) break;
-                    vp.setVR(vr);
-                    VSE.me.setPermissionsGroup(sender);
                     if (!vr) {
-                        vse.sendVRActiveUpdate(vp);
+                        vp.setVR(false);
+                    } else {
+                        vp.setVR(true);
+                        CompatibilityAPI.getCompatibility().injectPoseOverrider(sender);
                     }
+                    vse.sendVRActiveUpdate(vp);
+                    vse.setPermissionsGroup(sender);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
