@@ -15,9 +15,17 @@ repositories {
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.20.6-R0.1-SNAPSHOT")
+    compileOnly("org.jetbrains:annotations:24.1.0")
+
+    // soft depend
     compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
+
+    // We shade these
     implementation("com.github.cryptomorin:XSeries:11.1.0")
+    implementation("com.cjcrafter:foliascheduler:0.4.5")
     implementation("org.bstats:bstats-bukkit:3.0.1")
+    implementation("xyz.jpenilla:reflection-remapper:0.1.1")  // for paper auto remapping
+    implementation("net.fabricmc:mapping-io:0.5.0")  // for paper auto remapping
 }
 
 java {

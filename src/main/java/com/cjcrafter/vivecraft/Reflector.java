@@ -1,6 +1,10 @@
 package com.cjcrafter.vivecraft;
 
+import com.cjcrafter.foliascheduler.MinecraftVersions;
+import com.cjcrafter.foliascheduler.ServerVersions;
 import org.bukkit.Bukkit;
+import org.jetbrains.annotations.NotNull;
+import xyz.jpenilla.reflectionremapper.ReflectionRemapper;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -11,31 +15,38 @@ import java.util.Arrays;
 public final class Reflector {
 
     private static final String nmsVersion;
-    private static final int mcVersion;
 
     static {
         String versionString = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
         nmsVersion = "net.minecraft.server." + versionString + '.';
-        mcVersion = Integer.parseInt(versionString.split("_")[1]);
     }
 
     /**
-     * Returns the NMS class with the given name.
-     * In mc versions 1.17 and higher, <code>pack</code> is used for the
-     * package the class is in. Previous versions ignore <code>pack</code>.
+     * Returns the NMS class with the given name. In mc versions 1.17 and higher, <code>pack</code> is
+     * used for the package the class is in. Previous versions ignore <code>pack</code>.
      *
-     * @param pack The non-null package name that contains the class defined
-     *             by <code>name</code>. Make sure the string ends with a dot.
+     * <p>
+     * On paper servers in MC 1.20.5 and higher, packages have been remapped. We have to use the
+     * remapping tool to get the correct package name and class name.
+     *
+     * @param pack The non-null package name that contains the class defined by <code>name</code>. Make
+     *        sure the string ends with a dot.
      * @param name The non-null name of the class to find.
      * @return The NMS class with that name.
      */
-    public static Class<?> getNMSClass(String pack, String name) {
+    public static Class<?> getNMSClass(@NotNull String pack, @NotNull String name) {
         String className;
 
-        if (mcVersion < 17)
-            className = nmsVersion + name;
-        else
+        if (MinecraftVersions.CAVES_AND_CLIFFS_1.isAtLeast()) {
             className = "net.minecraft." + pack + '.' + name;
+
+            if (ServerVersions.isPaper() && MinecraftVersions.TRAILS_AND_TAILS.get(5).isAtLeast()) {
+                ReflectionRemapper remapper = ReflectionRemapper.forReobfMappingsInPaperJar();
+                className = remapper.remapClassOrArrayName(className);
+            }
+        } else {
+            className = nmsVersion + name;
+        }
 
         try {
             return Class.forName(className);

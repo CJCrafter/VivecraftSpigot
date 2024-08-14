@@ -1,5 +1,8 @@
 package com.cjcrafter.vivecraft;
 
+import com.cjcrafter.foliascheduler.FoliaCompatibility;
+import com.cjcrafter.foliascheduler.ServerImplementation;
+import com.cjcrafter.foliascheduler.TaskImplementation;
 import net.milkbowl.vault.permission.Permission;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.AdvancedPie;
@@ -40,7 +43,8 @@ public class VSE extends JavaPlugin implements Listener {
     public boolean debug = false;
     public boolean vault;
     FileConfiguration config = getConfig();
-    private int sendPosDataTask = 0;
+    private ServerImplementation scheduler;
+    private TaskImplementation<Void> sendPosDataTask;
 
     public static boolean isVive(Player p) {
         if (p == null) return false;
@@ -77,6 +81,7 @@ public class VSE extends JavaPlugin implements Listener {
     public void onEnable() {
         super.onEnable();
         me = this;
+        scheduler = new FoliaCompatibility(this).getServerImplementation();
 
         if (getConfig().getBoolean("general.vive-crafting", true)) {
             {
@@ -166,12 +171,7 @@ public class VSE extends JavaPlugin implements Listener {
 
         debug = (getConfig().getBoolean("general.debug", false));
 
-        sendPosDataTask = getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
-            public void run() {
-                sendPosData();
-            }
-        }, 20, 1);
-
+        sendPosDataTask = scheduler.async().runAtFixedRate(this::sendPosData, 20L, 1L);
 
         CheckAllEntities();
 
@@ -241,7 +241,7 @@ public class VSE extends JavaPlugin implements Listener {
 
     @Override
     public void onDisable() {
-        getServer().getScheduler().cancelTask(sendPosDataTask);
+        sendPosDataTask.cancel();
         super.onDisable();
     }
 

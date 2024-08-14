@@ -19,6 +19,8 @@ bukkit {
     prefix = "Vivecraft"
     softDepend = listOf("Vault")
 
+    foliaSupported = true
+
     commands {
         register("Vive") {
             description = "Vivecraft Spigot Extensions"
@@ -86,6 +88,10 @@ tasks.shadowJar {
 
         relocate("com.cryptomorin.xseries", "com.cjcrafter.vivecraft.xseries") {
             include(dependency("com.github.cryptomorin:XSeries:"))
+        }
+
+        relocate("com.cjcrafter.foliascheduler", "com.cjcrafter.vivecraft.foliascheduler") {
+            include(dependency("com.cjcrafter:foliascheduler:"))
         }
     }
 }
