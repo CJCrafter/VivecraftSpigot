@@ -64,7 +64,7 @@ public class Vivecraft_v1_20_R4 implements VivecraftCompatibility {
         classEndermanFreezeWhenLookedAt = ReflectionUtil.getMinecraftClass("world.entity.monster", "EntityEnderman$a"); // https://nms.screamingsandals.org/1.20.6/net/minecraft/world/entity/monster/EnderMan.html
         classEndermanLookForPlayerGoal = ReflectionUtil.getMinecraftClass("world.entity.monster", "EntityEnderman$PathfinderGoalPlayerWhoLookedAtTarget");
         poseAccessor = ReflectionUtil.getField(Entity.class, EntityDataAccessor.class, 6, ReflectionUtil.IS_STATIC);
-        itemsByIdAccessor = ReflectionUtil.getField(SynchedEntityData.class, Int2ObjectMap.class);
+        itemsByIdAccessor = ReflectionUtil.getField(SynchedEntityData.class, SynchedEntityData.DataItem[].class);
         eyeHeightAccessor = ReflectionUtil.getField(Entity.class, "bg");  // https://nms.screamingsandals.org/1.20.6/net/minecraft/world/entity/Entity.html
         resetFallDistanceMethod = ReflectionUtil.getMethod(LivingEntity.class, "n");  // https://nms.screamingsandals.org/1.20.6/net/minecraft/world/entity/Entity.html
     }
@@ -99,9 +99,8 @@ public class Vivecraft_v1_20_R4 implements VivecraftCompatibility {
     public void injectPoseOverrider(Player bukkit) {
         ServerPlayer player = ((CraftPlayer) bukkit).getHandle();
         EntityDataAccessor<Pose> poseObj = (EntityDataAccessor<Pose>) poseAccessor.get(player);
-        Int2ObjectOpenHashMap<SynchedEntityData.DataItem<?>> entries = (Int2ObjectOpenHashMap<SynchedEntityData.DataItem<?>>) itemsByIdAccessor.get(player.getEntityData());
-        InjectedDataWatcherItem item = new InjectedDataWatcherItem(poseObj, Pose.STANDING, bukkit);
-        entries.put(poseObj.id(), item);
+        SynchedEntityData.DataItem<?>[] items = (SynchedEntityData.DataItem<?>[]) itemsByIdAccessor.get(player.getEntityData());
+        items[poseObj.id()] = new InjectedDataWatcherItem(poseObj, Pose.STANDING, bukkit);
     }
 
     @Override
