@@ -2,7 +2,7 @@ plugins {
     `java-library`
     `maven-publish`
     signing
-    id("io.codearte.nexus-staging") version "0.30.0"
+    id("io.github.gradle-nexus.publish-plugin") version "2.0.0"
     id("io.papermc.paperweight.userdev") version "1.7.1" apply false
 }
 
@@ -57,24 +57,24 @@ val sourcesJar by tasks.registering(Jar::class) {
     from(sourceSets.main.get().allSource)
 }
 
-nexusStaging {
-    serverUrl = "https://s01.oss.sonatype.org/service/local/"
-    packageGroup = "com.cjcrafter"
-    stagingProfileId = findProperty("OSSRH_ID").toString()
-    username = findProperty("OSSRH_USERNAME").toString()
-    password = findProperty("OSSRH_PASSWORD").toString()
-    numberOfRetries = 30
-    delayBetweenRetriesInMillis = 3000
+nexusPublishing {
+    repositories {
+        sonatype {
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+            username.set(System.getenv("OSSRH_USERNAME") ?: findProperty("OSSRH_USERNAME").toString())
+            password.set(System.getenv("OSSRH_PASSWORD") ?: findProperty("OSSRH_PASSWORD").toString())
+            packageGroup.set("com.cjcrafter")
+        }
+    }
 }
 
-// Signing artifacts
 signing {
     isRequired = true
-
     useInMemoryPgpKeys(
-        findProperty("SIGNING_KEY_ID").toString(),
-        findProperty("SIGNING_PRIVATE_KEY").toString(),
-        findProperty("SIGNING_PASSWORD").toString()
+        System.getenv("SIGNING_KEY_ID") ?: findProperty("SIGNING_KEY_ID").toString(),
+        System.getenv("SIGNING_PRIVATE_KEY") ?: findProperty("SIGNING_PRIVATE_KEY").toString(),
+        System.getenv("SIGNING_PASSWORD") ?: findProperty("SIGNING_PASSWORD").toString(),
     )
     sign(publishing.publications)
 }
@@ -94,8 +94,7 @@ publishing {
 
                 groupId = "com.cjcrafter"
                 artifactId = "vivecraft"
-                // version is set in the BuildVivecraftSpigotExtensions' build.gradle.kts file
-                version = "3.0.0"
+                version = findProperty("version").toString()
 
                 licenses {
                     license {
@@ -118,19 +117,4 @@ publishing {
             }
         }
     }
-
-    repositories {
-        maven {
-            url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2")
-            credentials {
-                username = findProperty("OSSRH_USERNAME").toString()
-                password = findProperty("OSSRH_PASSWORD").toString()
-            }
-        }
-    }
-}
-
-// After publishing, the nexus plugin will automatically close and release
-tasks.named("publish") {
-    finalizedBy("closeAndReleaseRepository")
 }
