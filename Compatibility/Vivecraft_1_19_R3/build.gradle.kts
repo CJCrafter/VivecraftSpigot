@@ -15,6 +15,7 @@ dependencies {
     paperweight.paperDevBundle("1.19.4-R0.1-SNAPSHOT")
     implementation(project(":"))
     compileOnly("org.spigotmc:spigot-api:1.19.4-R0.1-SNAPSHOT")
+    compileOnly("com.cjcrafter:foliascheduler:0.5.0")
 }
 
 java {

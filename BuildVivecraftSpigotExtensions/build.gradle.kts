@@ -1,7 +1,7 @@
 import com.github.breadmoirai.githubreleaseplugin.GithubReleaseTask
 
 group = "com.cjcrafter"
-version = "3.0.1"
+version = "3.1.0"
 
 plugins {
     `java-library`
@@ -64,7 +64,7 @@ repositories {
 dependencies {
     implementation(project(":")) // base project
 
-    listOf("19_R3", "20_R1", "20_R2", "20_R3").forEach {
+    listOf("19_R3", "20_R1", "20_R2", "20_R3", "20_R4", "21_R1").forEach {
         implementation(project(":Vivecraft_1_$it", "reobf"))
     }
 }

@@ -22,10 +22,8 @@ dependencies {
 
     // We shade these
     implementation("com.github.cryptomorin:XSeries:11.1.0")
-    implementation("com.cjcrafter:foliascheduler:0.4.5")
+    implementation("com.cjcrafter:foliascheduler:0.5.0")
     implementation("org.bstats:bstats-bukkit:3.0.1")
-    implementation("xyz.jpenilla:reflection-remapper:0.1.1")  // for paper auto remapping
-    implementation("net.fabricmc:mapping-io:0.5.0")  // for paper auto remapping
 }
 
 java {
