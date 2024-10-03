@@ -6,7 +6,7 @@ version = "3.1.0"
 plugins {
     `java-library`
     id("com.github.breadmoirai.github-release") version "2.4.1"
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("com.gradleup.shadow") version "8.3.3"
     id("net.minecrell.plugin-yml.bukkit") version "0.6.0"
 }
 
