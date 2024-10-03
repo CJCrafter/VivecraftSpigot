@@ -1,6 +1,7 @@
 package com.cjcrafter.vivecraft.compatibility;
 
 import com.cjcrafter.foliascheduler.util.FieldAccessor;
+import com.cjcrafter.foliascheduler.util.MethodInvoker;
 import com.cjcrafter.foliascheduler.util.ReflectionUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -56,16 +57,16 @@ public class Vivecraft_v1_21_R1 implements VivecraftCompatibility {
     private static FieldAccessor poseAccessor;
     private static FieldAccessor itemsByIdAccessor;
     private static FieldAccessor eyeHeightAccessor;
-    private static FieldAccessor fallFlyTicksAccessor;
+    private static MethodInvoker resetFallDistanceMethod;
 
 
     public Vivecraft_v1_21_R1() {
         classEndermanFreezeWhenLookedAt = ReflectionUtil.getMinecraftClass("world.entity.monster", "EntityEnderman$a"); // https://nms.screamingsandals.org/1.20.2/net/minecraft/world/entity/monster/EnderMan.html
         classEndermanLookForPlayerGoal = ReflectionUtil.getMinecraftClass("world.entity.monster", "EntityEnderman$PathfinderGoalPlayerWhoLookedAtTarget");
-        poseAccessor = ReflectionUtil.getField(Entity.class, EntityDataAccessor.class, 6, ReflectionUtil.IS_NOT_STATIC);
+        poseAccessor = ReflectionUtil.getField(Entity.class, EntityDataAccessor.class, 6, ReflectionUtil.IS_STATIC);
         itemsByIdAccessor = ReflectionUtil.getField(SynchedEntityData.class, Int2ObjectMap.class);
-        eyeHeightAccessor = ReflectionUtil.getField(Entity.class, "bi");  // https://nms.screamingsandals.org/1.20.2/net/minecraft/world/entity/Entity.html
-        fallFlyTicksAccessor = ReflectionUtil.getField(LivingEntity.class,  "bx");  // https://nms.screamingsandals.org/1.20.2/net/minecraft/world/entity/LivingEntity.html
+        eyeHeightAccessor = ReflectionUtil.getField(Entity.class, "be");  // https://nms.screamingsandals.org/1.21.1/net/minecraft/world/entity/Entity.html
+        resetFallDistanceMethod = ReflectionUtil.getMethod(Entity.class,  "n");  // https://nms.screamingsandals.org/1.21.1/net/minecraft/world/entity/Entity.html
     }
 
     @Override
@@ -106,8 +107,7 @@ public class Vivecraft_v1_21_R1 implements VivecraftCompatibility {
     @Override
     public void resetFall(Player bukkit) {
         net.minecraft.world.entity.player.Player player = ((CraftPlayer) bukkit).getHandle();
-        player.fallDistance = 0f;
-        fallFlyTicksAccessor.set(player, 0);
+        resetFallDistanceMethod.invoke(player);
     }
 
     @Override

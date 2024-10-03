@@ -64,7 +64,7 @@ public class Vivecraft_v1_19_R3 implements VivecraftCompatibility {
     public Vivecraft_v1_19_R3() {
         classEndermanFreezeWhenLookedAt = ReflectionUtil.getMinecraftClass("world.entity.monster", "EntityEnderman$a");
         classEndermanLookForPlayerGoal = ReflectionUtil.getMinecraftClass("world.entity.monster", "EntityEnderman$PathfinderGoalPlayerWhoLookedAtTarget");
-        poseAccessor = ReflectionUtil.getField(Entity.class, EntityDataAccessor.class, 6, ReflectionUtil.IS_NOT_STATIC);
+        poseAccessor = ReflectionUtil.getField(Entity.class, EntityDataAccessor.class, 6, ReflectionUtil.IS_STATIC);
         itemsByIdAccessor = ReflectionUtil.getField(SynchedEntityData.class, Int2ObjectMap.class);
         eyeHeightAccessor = ReflectionUtil.getField(Entity.class, "bf");  // https://nms.screamingsandals.org/1.19.4/net/minecraft/world/entity/Entity.html
         fallFlyTicksAccessor = ReflectionUtil.getField(LivingEntity.class, "bw");  // https://nms.screamingsandals.org/1.19.4/net/minecraft/world/entity/LivingEntity.html
