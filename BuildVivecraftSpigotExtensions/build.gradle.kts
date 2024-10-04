@@ -1,12 +1,12 @@
 import com.github.breadmoirai.githubreleaseplugin.GithubReleaseTask
 
 group = "com.cjcrafter"
-version = "3.0.1"
+version = findProperty("version").toString()
 
 plugins {
     `java-library`
     id("com.github.breadmoirai.github-release") version "2.4.1"
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("com.gradleup.shadow") version "8.3.3"
     id("net.minecrell.plugin-yml.bukkit") version "0.6.0"
 }
 
@@ -18,6 +18,8 @@ bukkit {
     authors = listOf("jrbudda", "jaron780", "CJCrafter")
     prefix = "Vivecraft"
     softDepend = listOf("Vault")
+
+    foliaSupported = true
 
     commands {
         register("Vive") {
@@ -62,7 +64,7 @@ repositories {
 dependencies {
     implementation(project(":")) // base project
 
-    listOf("19_R3", "20_R1", "20_R2", "20_R3").forEach {
+    listOf("19_R3", "20_R1", "20_R2", "20_R3", "20_R4", "21_R1").forEach {
         implementation(project(":Vivecraft_1_$it", "reobf"))
     }
 }
@@ -86,6 +88,10 @@ tasks.shadowJar {
 
         relocate("com.cryptomorin.xseries", "com.cjcrafter.vivecraft.xseries") {
             include(dependency("com.github.cryptomorin:XSeries:"))
+        }
+
+        relocate("com.cjcrafter.foliascheduler", "com.cjcrafter.vivecraft.foliascheduler") {
+            include(dependency("com.cjcrafter:foliascheduler:"))
         }
     }
 }

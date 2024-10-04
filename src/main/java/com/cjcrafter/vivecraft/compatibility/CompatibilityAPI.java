@@ -1,5 +1,6 @@
 package com.cjcrafter.vivecraft.compatibility;
 
+import com.cjcrafter.foliascheduler.util.MinecraftVersions;
 import org.bukkit.Bukkit;
 import com.cjcrafter.vivecraft.VSE;
 
@@ -16,9 +17,8 @@ public final class CompatibilityAPI {
         // When compatibility has not yet been setup
         if (compatibility == null) {
 
-            // Get the version string like '1_19_R2' for 1.19.3
-            String version = Bukkit.getServer().getClass().getPackageName().replace(".", ",").split(",")[3];
-
+            // Get the version string like 'v1_19_R2' for 1.19.3
+            String version = MinecraftVersions.getCurrent().toProtocolString();
             try {
 
                 // If a class exists for this minecraft protocol version, then
@@ -27,11 +27,11 @@ public final class CompatibilityAPI {
                 Object instance = clazz.getDeclaredConstructor().newInstance();
                 compatibility = (VivecraftCompatibility) instance;
 
-            } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException ex) {
+            } catch (ReflectiveOperationException ex) {
                 Logger log = VSE.me.getLogger();
                 log.log(Level.WARNING, "Your version '" + version + "' is not fully supported");
                 log.log(Level.WARNING, "Check Spigot for a list of supported Minecraft versions");
-                log.log(Level.WARNING, "If you just updated your server to the newest version of Minecraft, make sure you update Vivecraft_Spigot_Extensions as well!");
+                log.log(Level.WARNING, "If you just updated your server to the newest version of Minecraft, make sure you update VivecraftSpigot as well!");
                 log.log(Level.WARNING, "https://www.spigotmc.org/resources/111303/");
                 log.log(Level.WARNING, "The following features will now be disabled: ");
                 log.log(Level.WARNING, "  - CreeperRadius");
