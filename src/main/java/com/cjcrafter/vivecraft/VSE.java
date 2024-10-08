@@ -43,7 +43,7 @@ public class VSE extends JavaPlugin implements Listener {
     public boolean debug = false;
     public boolean vault;
     FileConfiguration config = getConfig();
-    private ServerImplementation scheduler;
+    public ServerImplementation scheduler;
     private TaskImplementation<Void> sendPosDataTask;
 
     public static boolean isVive(Player p) {

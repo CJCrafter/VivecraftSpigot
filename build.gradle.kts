@@ -22,7 +22,7 @@ dependencies {
 
     // We shade these
     implementation("com.github.cryptomorin:XSeries:11.1.0")
-    implementation("com.cjcrafter:foliascheduler:0.5.0")
+    implementation("com.cjcrafter:foliascheduler:0.6.0")
     implementation("org.bstats:bstats-bukkit:3.0.1")
 }
 
