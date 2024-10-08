@@ -1,6 +1,7 @@
 package com.cjcrafter.vivecraft.listeners;
 
 import com.cryptomorin.xseries.XEntityType;
+import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -36,8 +37,8 @@ public class VivecraftItemListener implements Listener {
             v.setY(Math.sin(pitch * 0.017453292F) * f2 + 0.1F);
 
             Vector aim = vp.getControllerDir(0);
-            event.getItemDrop().teleport(vp.getControllerPos(0).add(0.2f * aim.getX(), 0.25f * aim.getY() - 0.2f, 0.2f * aim.getZ()));
-            event.getItemDrop().setVelocity(v);
+            Location target = vp.getControllerPos(0).add(0.2f * aim.getX(), 0.25f * aim.getY() - 0.2f, 0.2f * aim.getZ());
+            VSE.me.scheduler.teleportAsync(event.getItemDrop(), target).thenAccept((a) -> event.getItemDrop().setVelocity(v));
         }
     }
 }
