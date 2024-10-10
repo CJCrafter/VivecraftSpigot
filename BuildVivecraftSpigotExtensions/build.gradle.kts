@@ -32,6 +32,7 @@ bukkit {
 
 // https://github.com/BreadMoirai/github-release-gradle-plugin
 tasks.register<GithubReleaseTask>("createGithubRelease").configure {
+    dependsOn("shadowJar")
 
     owner.set("CJCrafter")
     repo.set("Vivecraft_Spigot_Extensions")
