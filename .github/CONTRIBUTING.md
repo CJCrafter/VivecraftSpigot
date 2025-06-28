@@ -2,17 +2,11 @@
 Thank you for considering contributing to this project. We appreciate your time and effort. 
 We have a few guidelines to help you get started.
 
-MechanicsCore leverages the following technologies:
+VivecraftSpigot leverages the following technologies:
   - [Gradle](https://gradle.org/)
     - Handling modules, dependencies, and other build tasks 
-  - [Kotlin](https://kotlinlang.org/) 
-    - [Kotlin DSL](https://docs.gradle.org/current/userguide/kotlin_dsl.html) for Gradle
-    - Use `@NotNull` and `@Nullable` annotations for null safety
-    - Use Kotlin for utility classes, and other appropriate classes
   - [paperweight-userdev](https://github.com/PaperMC/paperweight-test-plugin)
-    - Automatically download and remaps server jars for 1.17.2+ 
-  - [Jorel's CommandAPI](https://github.com/CommandAPI/CommandAPI)
-    - Command parsing and handling
+    - Automatically download and remaps server jars for 1.17.2+
 
 ## New contributor guide
 
@@ -21,7 +15,7 @@ To build the plugin for Spigot, run:
 ./gradlew shadowJar
 ```
 
-The `.jar` file will be located in the `mechanicscore-build/build/libs` directory.
+The `.jar` file will be located in the `vivecraft-build/build/libs` directory.
 
 ## Commit Style
 We use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for our commit messages. Generally, this means:

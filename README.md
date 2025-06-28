@@ -15,10 +15,7 @@ VSE is for [Spigot](https://www.spigotmc.org/) servers and adds several enhancem
 # Disclaimer
 This is NOT the [original version of VSE](https://www.spigotmc.org/resources/33166/). 
 This is a modified version of the original to fix various issues, add a working API, 
-and *attempts* to *partially* fix the spaghetti code present in the original code. 
-I intended for my code to merged into the original project, but the developers have 
-not responded to my multiple requests in 6 months. So I created this project to add 
-VR support to [WeaponMechanics](https://www.spigotmc.org/resources/99913/). 
+and *attempts* to *partially* fix the spaghetti code present in the original code.
 Any other developers are free to use this plugin to add their own VR support.
 
 I do **NOT**:
