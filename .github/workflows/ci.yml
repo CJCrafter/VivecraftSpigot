@@ -12,6 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Make Gradlew executable
+        run: chmod +x ./gradlew
+
       - name: Set up Java 21 & cache Gradle
         uses: actions/setup-java@v4
         with:

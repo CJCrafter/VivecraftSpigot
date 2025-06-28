@@ -20,6 +20,9 @@ jobs:
         with:
           fetch-depth: 0  # Fetch all history for accurate version extraction
 
+      - name: Make Gradlew executable
+        run: chmod +x ./gradlew
+
       - name: Set up Java 21 & cache Gradle
         uses: actions/setup-java@v4
         with:
