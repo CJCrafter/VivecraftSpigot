@@ -39,7 +39,7 @@ it is recommended to depend on the jar directly. Use `VSE.vivePlayers.get(UUID)`
 
 Here is an example from WeaponMechanics which gets the location of the VR hand (and direction):
 ```java
-        if (Bukkit.getPluginManager().getPlugin("Vivecraft-Spigot-Extensions") != null
+        if (Bukkit.getPluginManager().getPlugin("VivecraftSpigot") != null
                 && livingEntity.getType() == EntityType.PLAYER) {
             // Vivecraft support for VR players
 

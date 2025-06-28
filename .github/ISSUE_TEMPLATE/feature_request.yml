@@ -1,0 +1,38 @@
+name: Feature Request
+description: If you have features request, post it here
+labels: [ enhancement, new ]
+body:
+
+  - type: textarea
+    attributes:
+      label: Description
+      description: |
+        Explain what kind of feature you want to be added
+      value: |
+        Describe as well as you can about the feature you're requesting
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Configuration
+      description: |
+        How do you imagine this feature would look like in configurations?
+      value: |
+        ```yaml
+        My_Feature:
+          Feature_Option: <true/false>
+          Other_Option: <amount>
+          etc.
+        ```
+    validations:
+      required: true
+
+  - type: checkboxes
+    attributes:
+      label: Payment (optional)
+      description: |
+        You can pay to add your request quickly (<1 month). There is an $8 minimum payment requirement. All features we add are available for everyone to use; no private features. We use PayPal for all transactions. After checking this option, we will give you an estimate and our PayPal information.
+      options:
+        - label: I'm willing to pay for this feature
+          required: false

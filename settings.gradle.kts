@@ -1,6 +1,3 @@
-// This plugin by Paper allows us to use the mojang-mapped "NMS" classes, and
-// it automatically remaps them to spigot-mappings during the build phase.
-// Works for 1.17+
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -8,15 +5,36 @@ pluginManagement {
     }
 }
 
-rootProject.name = "Vivecraft_Spigot_Extensions"
+plugins {
+    // Apply the foojay-resolver plugin to allow automatic download of JDKs
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
+}
 
-// We have to include the subprojects so editors like IntelliJ recognize
-// them as valid Java projects.
-include(":BuildVivecraftSpigotExtensions")
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+        maven(url = "https://central.sonatype.com/repository/maven-snapshots/") // FoliaScheduler Snapshots
+        maven(url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/") // Spigot API
+        maven(url = "https://s01.oss.sonatype.org/content/repositories/snapshots/") // Adventure Snapshots
+        maven(url = "https://libraries.minecraft.net/") // Brigadier, GameProfile
+        maven(url = "https://repo.extendedclip.com/content/repositories/placeholderapi/") // PlaceholderAPI
+        maven(url = "https://jitpack.io") // Vault
+        maven(url = "https://maven.enginehub.org/repo/") // WorldGuard
+        maven(url = "https://mvn.lumine.io/repository/maven-public/") // MythicMobs
+        maven(url = "https://repo.opencollab.dev/main/") // GeyserMC
+        maven(url = "https://repo.jeff-media.com/public/") // SpigotUpdateChecker
+        maven(url = "https://repo.codemc.org/repository/maven-public/") // NBTAPI from CommandAPI
+        maven(url = "https://repo.codemc.io/repository/maven-releases/") // PacketEvents
+    }
+}
 
-// Include compatibility issues
-listOf("19_R3", "20_R1", "20_R2", "20_R3", "20_R4", "21_R1").forEach {
-    println("Including Vivecraft module 1_$it")
-    include(":Vivecraft_1_$it")
-    project(":Vivecraft_1_$it").projectDir = file("Compatibility/Vivecraft_1_$it")
+rootProject.name = "VivecraftSpigot"
+
+include("vivecraft-build")
+include("vivecraft-core")
+
+file("./vivecraft-platforms/paper").listFiles()?.filter { it.isDirectory }?.forEach { subDir ->
+    val subProjectName = subDir.name
+    include(":$subProjectName")
+    project(":$subProjectName").projectDir = subDir
 }
