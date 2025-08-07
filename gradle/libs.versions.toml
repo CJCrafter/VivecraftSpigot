@@ -8,9 +8,9 @@ vault = "1.7.1"
 # Shaded dependencies
 annotations = "26.0.2"
 bstats = "3.1.0"
-foliaScheduler = "0.7.0"
+foliaScheduler = "0.7.4-SNAPSHOT"
 kotlin = "1.9.23"
-xSeries = "13.3.1"
+xSeries = "13.3.3"
 
 
 [libraries]
