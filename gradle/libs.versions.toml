@@ -1,0 +1,26 @@
+[versions]
+# Core Minecraft dependencies
+spigotApi = "1.21.4-R0.1-SNAPSHOT"
+
+# External "hooks" or plugins that we might interact with
+vault = "1.7.1"
+
+# Shaded dependencies
+annotations = "26.0.2"
+bstats = "3.1.0"
+foliaScheduler = "0.7.4-SNAPSHOT"
+kotlin = "1.9.23"
+xSeries = "13.3.3"
+
+
+[libraries]
+# Core Minecraft dependencies
+spigotApi      = { module = "org.spigotmc:spigot-api", version.ref = "spigotApi" }
+
+# External "hooks" or plugins that we might interact with
+vault          = { module = "com.github.MilkBowl:VaultAPI", version.ref = "vault" }
+
+annotations              = { module = "org.jetbrains:annotations", version.ref = "annotations" }
+bstats                   = { module = "org.bstats:bstats-bukkit", version.ref = "bstats" }
+foliaScheduler           = { module = "com.cjcrafter:foliascheduler", version.ref = "foliaScheduler" }
+xSeries                  = { module = "com.github.cryptomorin:XSeries", version.ref = "xSeries" }
