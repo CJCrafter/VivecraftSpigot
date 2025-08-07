@@ -6,13 +6,6 @@ plugins {
     id("org.jreleaser") version "1.18.0"
 }
 
-repositories {
-    mavenCentral()
-
-    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
-    maven("https://jitpack.io")
-}
-
 dependencies {
     compileOnly(libs.spigotApi)
 
