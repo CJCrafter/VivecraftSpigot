@@ -3,6 +3,7 @@ package com.cjcrafter.vivecraft.compatibility;
 import com.cjcrafter.foliascheduler.util.FieldAccessor;
 import com.cjcrafter.foliascheduler.util.MethodInvoker;
 import com.cjcrafter.foliascheduler.util.ReflectionUtil;
+import com.cjcrafter.foliascheduler.util.ServerVersions;
 import com.destroystokyo.paper.event.entity.EndermanAttackPlayerEvent;
 import com.destroystokyo.paper.event.entity.EndermanEscapeEvent;
 import io.netty.channel.ChannelHandlerContext;
@@ -335,7 +336,11 @@ public class Vivecraft_v1_21_R2 implements VivecraftCompatibility {
             } else {
                 if (super.target != null && !this.enderman.isPassenger()) {
                     if (isBeingStaredBy(enderman, (net.minecraft.world.entity.player.Player)super.target)) {
-                        if (super.target.distanceToSqr(this.enderman) < (double)16.0F && new EndermanEscapeEvent((CraftEnderman)enderman.getBukkitEntity(), EndermanEscapeEvent.Reason.STARE).callEvent()) {
+                        boolean shouldTeleport = super.target.distanceToSqr(this.enderman) < (double)16.0F;
+                        if (shouldTeleport && ServerVersions.isPaper()) {
+                            shouldTeleport = new EndermanEscapeEvent((CraftEnderman)enderman.getBukkitEntity(), EndermanEscapeEvent.Reason.STARE).callEvent();
+                        }
+                        if (shouldTeleport) {
                             this.enderman.teleport();
                         }
 
@@ -353,9 +358,12 @@ public class Vivecraft_v1_21_R2 implements VivecraftCompatibility {
         //Vivecraft copy from EnderMan
         public static boolean isBeingStaredBy(EnderMan enderman, net.minecraft.world.entity.player.Player player) {
             boolean shouldAttack = isBeingStaredBy0(enderman, player);
-            EndermanAttackPlayerEvent event = new EndermanAttackPlayerEvent((Enderman) enderman.getBukkitEntity(), (org.bukkit.entity.Player) player.getBukkitEntity());
-            event.setCancelled(!shouldAttack);
-            return event.callEvent();
+            if (ServerVersions.isPaper()) {
+                EndermanAttackPlayerEvent event = new EndermanAttackPlayerEvent((Enderman) enderman.getBukkitEntity(), (org.bukkit.entity.Player) player.getBukkitEntity());
+                event.setCancelled(!shouldAttack);
+                return event.callEvent();
+            }
+            return shouldAttack;
         }
 
         //Vivecraft copy from EnderMan
